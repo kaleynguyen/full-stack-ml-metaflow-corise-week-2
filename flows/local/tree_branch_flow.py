@@ -29,8 +29,7 @@ class Branch_Flow(FlowSpec):
         from sklearn.ensemble import RandomForestClassifier
         from sklearn.model_selection import cross_val_score
         
-        self.clf = RandomForestClassifier(n_estimators=10, max_depth=None,
-            min_samples_split=2, random_state=0)
+        self.clf = RandomForestClassifier(n_estimators=10, max_depth=None, min_samples_split=2, random_state=0)
         self.scores = cross_val_score(self.clf, self.X, self.y, cv=5)
         self.next(self.choose_model)
 
@@ -43,9 +42,7 @@ class Branch_Flow(FlowSpec):
         from sklearn.model_selection import cross_val_score
         
 
-        self.clf = ExtraTreesClassifier(n_estimators=10, max_depth=None,
-            min_samples_split=2, random_state=0)
-
+        self.clf = ExtraTreesClassifier(n_estimators=10, max_depth=None, min_samples_split=2, random_state=0)
         self.scores = cross_val_score(self.clf, self.X, self.y, cv=5)
         self.next(self.choose_model)
 
@@ -57,11 +54,8 @@ class Branch_Flow(FlowSpec):
         from sklearn.tree import DecisionTreeClassifier
         from sklearn.model_selection import cross_val_score
         
-        self.clf = DecisionTreeClassifier(max_depth=None, min_samples_split=2,
-            random_state=0)
-
+        self.clf = DecisionTreeClassifier(max_depth=None, min_samples_split=2, random_state=0)
         self.scores = cross_val_score(self.clf, self.X, self.y, cv=5)
-
         self.next(self.choose_model)
                         
     @step
@@ -72,8 +66,7 @@ class Branch_Flow(FlowSpec):
         import numpy as np
 
         def score(inp):
-            return inp.clf,\
-                   np.mean(inp.scores)
+            return inp.clf, np.mean(inp.scores)
 
             
         self.results = sorted(map(score, inputs), key=lambda x: -x[1]) 
