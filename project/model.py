@@ -36,21 +36,16 @@ class NbowModel():
                            optimizer=opt, metrics=["accuracy"])
 
     def fit(self, X, y):
-        print(X.shape)
-        print(X[0])
         res = self.cv.fit_transform(X).toarray()
         self.model.fit(x=res, y=y, batch_size=32, 
                        epochs=10, validation_split=.2)
     
     def predict(self, X):
-        print(X.shape)
-        print(X[0])
         res = self.cv.transform(X).toarray()
         return self.model.predict(res)
     
     def eval_acc(self, X, labels, threshold=.5):
-        return accuracy_score(labels, 
-                              self.predict(X) > threshold)
+        return accuracy_score(labels, self.predict(X) > threshold)
     
     def eval_rocauc(self, X, labels):
         return roc_auc_score(labels,  self.predict(X))

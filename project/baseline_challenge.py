@@ -32,12 +32,10 @@ class BaselineChallenge(FlowSpec):
         
         # load dataset packaged with the flow.
         # this technique is convenient when working with small datasets that need to move to remove tasks.
-        df = self.data
+        df = pd.read_csv('../data/women-clothing.csv')
         # TODO: load the data. 
         # Look up a few lines to the IncludeFile('data', default='Womens Clothing E-Commerce Reviews.csv'). 
         # You can find documentation on IncludeFile here: https://docs.metaflow.org/scaling/data#data-in-local-files
-        print(df)
-        print(self.data)
 
         # filter down to reviews and labels 
         df.columns = ["_".join(name.lower().strip().split()) for name in df.columns]
@@ -85,7 +83,7 @@ class BaselineChallenge(FlowSpec):
 
         self.results = []
         for params in self.hyperparam_set:
-            model = NbowModel(params) # TODO: instantiate your custom model here!
+            model = NbowModel(params['vocab_sz']) # TODO: instantiate your custom model here!
             model.fit(X=self.df['review'], y=self.df['label'])
             acc = model.eval_acc(X=self.valdf['review'], labels=self.valdf['label'])
             rocauc = model.eval_rocauc(X=self.valdf['review'], labels=self.valdf['label'])
@@ -106,7 +104,7 @@ class BaselineChallenge(FlowSpec):
         df['accuracy'].append(result.acc)
         return rows, df
 
-    @card
+    @card(type='blank')
     @step
     def aggregate(self, inputs):
 
