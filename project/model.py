@@ -17,7 +17,8 @@ class NbowModel():
         # Instantiate the CountVectorizer
         self.cv = CountVectorizer(
             min_df=.005, max_df = .75, stop_words='english', 
-            strip_accents='ascii', max_features=self.vocab_sz
+            strip_accents='ascii', 
+            max_features=self.vocab_sz
         )
 
         # Define the keras model
